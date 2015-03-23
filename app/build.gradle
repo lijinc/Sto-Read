@@ -1,0 +1,37 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        applicationId "com.lijin.kahani.sto_read"
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.etsy.android.grid:library:1.0.5'
+    compile 'com.melnykov:floatingactionbutton:1.2.0'
+    compile 'com.parse.bolts:bolts-android:1.+'
+    compile 'com.soundcloud.android:android-crop:0.9.10@aar'
+    // Module dependency on ParseLoginUI library sources
+    // If your app's project does not have the Parse Android SDK already, copy it into your
+    // project at YOUR_PROJECT_LIBS_PATH.
+    compile files('libs/Parse-1.8.4.jar')
+    compile files('libs/ParseFacebookUtils-1.8.4.jar')
+    // Uncomment if using Facebook Login (optional Maven dependency)
+    compile 'com.facebook.android:facebook-android-sdk:3.23.1'
+    compile project(':ParseLoginUI')
+}
