@@ -3,12 +3,17 @@ package com.lijin.kahani.sto_read;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.etsy.android.grid.StaggeredGridView;
@@ -30,6 +35,7 @@ public class MainActivity extends ActionBarActivity implements AbsListView.OnIte
     DataAdapter dataAdapter;
     StaggeredGridView mGridView;
     private ParseUser currentUser;
+    EditText searchEditText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +53,31 @@ public class MainActivity extends ActionBarActivity implements AbsListView.OnIte
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),AddStoryActivity.class);
                 startActivity(intent);
+            }
+        });
+        searchEditText=(EditText)findViewById(R.id.searchEditText);
+        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                querySearch(searchEditText.getText().toString());
+                return true;
+            }
+        });
+        searchEditText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                querySearch(s.toString());
             }
         });
         mGridView = (StaggeredGridView) findViewById(R.id.grid_view);
@@ -69,6 +100,23 @@ public class MainActivity extends ActionBarActivity implements AbsListView.OnIte
         }
     }
 
+    public void querySearch(String search){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
+        query.whereContains("TITLE",search);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> storyList, com.parse.ParseException e) {
+                if (e == null) {
+                    arrayList.clear();
+                    for(ParseObject parseObject:storyList){
+                        arrayList.add(parseObject);
+                    }
+                    dataAdapter.notifyDataSetChanged();
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
 
     public void query(){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");

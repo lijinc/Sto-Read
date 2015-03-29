@@ -38,5 +38,13 @@ public class Story extends ParseObject {
         put("ICON", file);
     }
 
+    public String getType(){
+        return getString("TYPE");
+    }
+
+    public void setType(String title){
+        put("TYPE", title);
+    }
+
 
 }

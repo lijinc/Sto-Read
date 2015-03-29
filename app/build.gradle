@@ -26,6 +26,7 @@ dependencies {
     compile 'com.melnykov:floatingactionbutton:1.2.0'
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.soundcloud.android:android-crop:0.9.10@aar'
+    compile 'it.neokree:MaterialNavigationDrawer:1.3.3'
     // Module dependency on ParseLoginUI library sources
     // If your app's project does not have the Parse Android SDK already, copy it into your
     // project at YOUR_PROJECT_LIBS_PATH.
